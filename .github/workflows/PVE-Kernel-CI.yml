@@ -29,7 +29,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           #docker rmi `docker images -q`
-          #sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+          #sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php
           #sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
           sudo wget -qO - http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg | sudo apt-key add -
           sudo echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-install-repo.list
@@ -42,23 +42,22 @@ jobs:
 
       # 下载源码
       - name: Clone source code
-        run: |
-         pwd         
-         git clone https://git.proxmox.com/git/pve-kernel.git
-         ls -l -a
+        run: |               
+         git clone https://git.proxmox.com/git/pve-kernel.git         
 
       # 修改patch文件
       - name: modify code
         run: |
           cd ./pve-kernel/
-          touch 123.deb
-          touch 456.deb
-          ls -l -a
+          cp -f ./0003-pci-Enable-overrides-for-missing-ACS-capabilities-4..patch ./pve-kernel/patches/kernel/
+
+      # 开始编译
+      - name: Compile
+        run: make V=s
 
       # 准备文件
       - name: Organize file
         run: |
-          pwd
           cd ./pve-kernel/
           mkdir deb
           mv *.deb deb
