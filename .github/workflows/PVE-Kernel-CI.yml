@@ -48,15 +48,22 @@ jobs:
          ls -l -a
 
       # 修改patch文件
-      - name: modify cade
+      - name: modify code
         run: |
           cd ./pve-kernel/
           touch 123.deb
+          touch 456.deb
           ls -l -a
 
-      # 上传固件
-      - name: Upload artifact
+      # 准备文件
+      - name: Organize file
+        run: |
+          sudo mkdir deb
+          mv *.deb deb
+
+      # 上传文件
+      - name: Upload file
         uses: actions/upload-artifact@master
         with:
-          name: PVE_firmware_yfdoor
-          path: ./pve-kernel/*.deb
+          name: PVE_file_yfdoor
+          path: ./pve-kernel/deb/
