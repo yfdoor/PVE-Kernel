@@ -44,7 +44,7 @@ jobs:
       - name: Clone source code
         run: |
          pwd         
-         Git clone git://git.proxmox.com/git/pve-kernel.git
+         git clone https://git.proxmox.com/git/pve-kernel.git
          ls -l -a
 
       # 修改patch文件
