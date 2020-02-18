@@ -60,7 +60,7 @@ jobs:
         run: |
           pwd
           cd ./pve-kernel/
-          sudo mkdir deb
+          mkdir deb
           mv *.deb deb
 
       # 上传文件
