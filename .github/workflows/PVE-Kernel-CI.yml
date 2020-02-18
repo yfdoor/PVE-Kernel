@@ -43,7 +43,7 @@ jobs:
       # 下载源码
       - name: Clone source code
         run: |               
-         git clone https://git.proxmox.com/git/pve-kernel.git         
+         git clone git://git.proxmox.com/git/pve-kernel.git   
 
       # 修改patch文件
       - name: modify code
@@ -55,7 +55,7 @@ jobs:
       - name: Compile
         run: |
          cd ./pve-kernel/
-         make V=s
+         make
 
       # 准备文件
       - name: Organize file
