@@ -48,7 +48,7 @@ jobs:
       # 修改patch文件
       - name: modify code
         run: |
-          cd ./pve-kernel/
+          ls -l -a
           cp -f ./0003-pci-Enable-overrides-for-missing-ACS-capabilities-4..patch ./pve-kernel/patches/kernel/
 
       # 开始编译
