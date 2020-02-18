@@ -58,6 +58,8 @@ jobs:
       # 准备文件
       - name: Organize file
         run: |
+          pwd
+          cd ./pve-kernel/
           sudo mkdir deb
           mv *.deb deb
 
