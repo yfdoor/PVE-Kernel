@@ -53,7 +53,9 @@ jobs:
 
       # 开始编译
       - name: Compile
-        run: make V=s
+        run: |
+         cd ./pve-kernel/
+         make V=s
 
       # 准备文件
       - name: Organize file
