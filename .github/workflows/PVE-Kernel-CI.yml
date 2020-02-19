@@ -3,7 +3,7 @@
 
 name: PVE-Kernel-CI
 
-on:
+#on:
   # push:
   #  branches: 
   #   - master
@@ -11,8 +11,8 @@ on:
   #   - cron: 0 20 * * *
   # release:
   #   types: [published]
-   watch:
-     types: [started]
+  # watch:
+  #   types: [started]
 
 jobs:
   build:
