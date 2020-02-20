@@ -5,7 +5,9 @@
 # 解决方案
 
 1、本方案通拉取官方镜像 https://git.proxmox.com/git/pve-kernel.git
+
 2、然后修改 patches 下的 ACS 文件。
+
 3、最后重新编译打包 kernel 文件，更新核心的方法来解决 IOMMU 不能分组的问题。
 
 # 使用方法
