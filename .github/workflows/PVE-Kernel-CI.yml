@@ -7,12 +7,12 @@ on:
   # push:
   #  branches: 
   #   - master
-  # schedule:
-  #   - cron: 0 20 * * *
+   schedule:
+     - cron: 0 0 1 * *
   # release:
   #   types: [published]
-   watch:
-     types: [started]
+  # watch:
+  #   types: [started]
 
 jobs:
   build:
