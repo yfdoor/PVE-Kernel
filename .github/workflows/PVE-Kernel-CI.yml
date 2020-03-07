@@ -7,16 +7,17 @@ on:
   # push:
   #  branches: 
   #   - master
-   schedule:
+  schedule:
      - cron: 0 0 1 * *
   # release:
   #   types: [published]
-  # watch:
-  #   types: [started]
+  watch:
+    types: [started]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
       # 项目初始
@@ -63,12 +64,20 @@ jobs:
       - name: Organize file
         run: |
           cd ./pve-kernel/
-          mkdir deb
-          mv *.deb deb
+          mkdir PVE
+          mv *.deb PVE
+          zip -r PVE_file_yfdoor.zip PVE && cp -r -f PVE_file_yfdoor.zip ../PVE_file_yfdoor.zip
 
       # 上传文件
       - name: Upload file
         uses: actions/upload-artifact@master
         with:
           name: PVE_file_yfdoor
-          path: ./pve-kernel/deb
+          path: ./pve-kernel/PVE
+
+      # 更新项目
+      - name: Package Push
+        run: |
+          git add PVE_file_yfdoor.zip
+          git commit -m "Update pve-kernel package"
+          git push
