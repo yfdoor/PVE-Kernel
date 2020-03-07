@@ -1,8 +1,5 @@
 # PVE-Kernel Compile Program
 
-## 更新：
-- 2020-02-21：PVE-V5.3.18.2
-
 ## 简介：
 - 该项目用来在线编译 PVE 核心以修正 IOMMU 不能分组的问题。
 
@@ -13,6 +10,9 @@
 
 ## 用法：
 - 将 PVE-Kernel-CI.yml 文件放到你的项目 .github/workflows/ 目录下，然后点击 “star” 来触发。
+
+## 下载：
+- 下载项目下的：**PVE_Kernel_yfdoor.zip** 压缩包即可。
 
 ## 警告：
 - 更新核心有风险，请谨慎操作。
