@@ -52,13 +52,15 @@ jobs:
 
       # 修改文件
       - name: Modify code
-        run: cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/
+        run: |
+          cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/
+          touch ./pve-kernel/123.deb
 
       # 开始编译
-      - name: Compile
-        run: |
-         cd ./pve-kernel/
-         make V=s
+      #- name: Compile
+      #  run: |
+      #   cd ./pve-kernel/
+      #   make V=s
 
       # 准备文件
       - name: Organize file
@@ -78,6 +80,8 @@ jobs:
       # 更新项目
       - name: Package Push
         run: |
+          git config --global user.email "yfdoor@github.com"
+          git config --global user.name "yfdoor"
           git add PVE_file_yfdoor.zip
           git commit -m "Update pve-kernel package"
           git push
