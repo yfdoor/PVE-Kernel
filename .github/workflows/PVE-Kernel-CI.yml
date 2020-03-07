@@ -21,11 +21,11 @@ jobs:
 
     steps:
       # 项目初始
-      - name: Checkout
+      - name: Code Checkout
         uses: actions/checkout@master
 
       # 环境准备
-      - name: Space cleanup
+      - name: Space Cleanup
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
@@ -47,41 +47,40 @@ jobs:
           df -h
 
       # 下载源码
-      - name: Clone source code
+      - name: Clone Code
         run: git clone git://git.proxmox.com/git/pve-kernel.git
 
       # 修改文件
-      - name: Modify code
+      - name: Modify Code
         run: |
           cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/
-          touch ./pve-kernel/123.deb
 
       # 开始编译
-      #- name: Compile
-      #  run: |
-      #   cd ./pve-kernel/
-      #   make V=s
+      - name: Compile File
+        run: |
+         cd ./pve-kernel/
+         make V=s
 
       # 准备文件
-      - name: Organize file
+      - name: Organize File
         run: |
           cd ./pve-kernel/
           mkdir PVE
           mv *.deb PVE
-          zip -r PVE_file_yfdoor.zip PVE && cp -r -f PVE_file_yfdoor.zip ../PVE_file_yfdoor.zip
+          zip -r PVE_Kernel_yfdoor.zip PVE && cp -r -f PVE_Kernel_yfdoor.zip ../PVE_Kernel_yfdoor.zip
 
       # 上传文件
-      - name: Upload file
+      - name: Upload File
         uses: actions/upload-artifact@master
         with:
-          name: PVE_file_yfdoor
+          name: PVE_Kernel_yfdoor
           path: ./pve-kernel/PVE
 
       # 更新项目
-      - name: Package Push
+      - name: Push File
         run: |
           git config --global user.email "yfdoor@github.com"
           git config --global user.name "yfdoor"
-          git add PVE_file_yfdoor.zip
+          git add PVE_Kernel_yfdoor.zip
           git commit -m "Update pve-kernel package"
           git push
