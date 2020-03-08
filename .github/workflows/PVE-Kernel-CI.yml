@@ -3,6 +3,7 @@
 
 name: PVE-Kernel-CI
 
+# 触发条件
 on:
   # push:
   #  branches: 
@@ -24,7 +25,7 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@master
 
-      # 环境准备
+      # 空间清理
       - name: Space Cleanup
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -54,12 +55,13 @@ jobs:
       - name: Modify Code
         run: |
           cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/
+          touch /pve-kernel/123.deb
 
       # 开始编译
-      - name: Compile File
-        run: |
-         cd ./pve-kernel/
-         make V=s
+      #- name: Compile File
+      #  run: |
+      #   cd ./pve-kernel/
+      #   make V=s
 
       # 准备文件
       - name: Organize File
