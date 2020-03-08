@@ -65,7 +65,8 @@ jobs:
       # 准备文件
       - name: Organize File
         run: |
-          mkdir -p pve-kernel/PVE && mv pve-kernel/*.deb PVE
+          cd pve-kernel
+          mkdir -p PVE && mv *.deb PVE
 
       # 上传文件
       - name: Upload File
