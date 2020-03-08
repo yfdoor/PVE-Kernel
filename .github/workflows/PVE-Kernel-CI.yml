@@ -87,5 +87,5 @@ jobs:
           git config --global user.name "yfdoor"
           git add PVE_Kernel_yfdoor.zip
           git commit -m "Update pve-kernel package"
-          git remote set-url origin git@github.com:yfdoor/PVE-Kernel.git
+          git remote set-url origin https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git
           git push https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:master
