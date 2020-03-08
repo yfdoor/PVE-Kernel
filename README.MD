@@ -12,7 +12,7 @@
 - 将 PVE-Kernel-CI.yml 文件放到你的项目 .github/workflows/ 目录下，然后点击 “star” 来触发。
 
 ## 下载：
-- 下载 Kernel-Package 分支下的：**[PVE_Kernel_yfdoor.zip](https://github.com/yfdoor/PVE-Kernel/blob/master/PVE_Kernel_yfdoor.zip)** 或 **Artifacts** 下的压缩包即可。
+- 下载 **Kernel-Package** 分支下或 **Artifacts** 下的：**PVE_Kernel_yfdoor.zip** 压缩包即可。
 
 ## 警告：
 - 更新核心有风险，请谨慎操作。
