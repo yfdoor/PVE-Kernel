@@ -65,10 +65,7 @@ jobs:
       # 准备文件
       - name: Organize File
         run: |
-          cd ./pve-kernel/
-          mkdir PVE
-          mv *.deb PVE
-          zip -r PVE_Kernel_yfdoor.zip PVE && cp -r -f PVE_Kernel_yfdoor.zip ../PVE_Kernel_yfdoor.zip
+          mkdir -p pve-kernel/PVE && mv pve-kernel/*.deb PVE
 
       # 上传文件
       - name: Upload File
@@ -77,14 +74,16 @@ jobs:
           name: PVE_Kernel_yfdoor
           path: ./pve-kernel/PVE
 
-      # 更新项目
-      - name: Push File
+      # 更新项目          
+      - name: Upload Branch
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
+          cd pve-kernel/PVE
+          zip -r PVE_Kernel_yfdoor.zip *
+          git init
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"
-          git add PVE_Kernel_yfdoor.zip
-          git commit -m "Update pve-kernel package"
-          git remote set-url origin https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:master
+          git add .
+          git commit -m "Update PVE-Kernel Package"
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
