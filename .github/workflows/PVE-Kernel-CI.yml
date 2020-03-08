@@ -54,12 +54,12 @@ jobs:
       # 修改文件
       - name: Modify Code
         run: |
-          cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/  
+          cp -f patches/kernel/* pve-kernel/patches/kernel/  
 
       # 开始编译
       - name: Compile File
         run: |
-         cd ./pve-kernel/
+         cd pve-kernel
          make V=s
 
       # 准备文件
