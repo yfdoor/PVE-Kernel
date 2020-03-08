@@ -55,7 +55,7 @@ jobs:
       - name: Modify Code
         run: |
           cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/
-          touch /pve-kernel/123.deb
+          touch ./pve-kernel/123.deb
 
       # 开始编译
       #- name: Compile File
