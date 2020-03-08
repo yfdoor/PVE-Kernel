@@ -54,14 +54,13 @@ jobs:
       # 修改文件
       - name: Modify Code
         run: |
-          cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/
-          touch ./pve-kernel/123.deb
+          cp -f ./patches/kernel/* ./pve-kernel/patches/kernel/  
 
       # 开始编译
-      #- name: Compile File
-      #  run: |
-      #   cd ./pve-kernel/
-      #   make V=s
+      - name: Compile File
+        run: |
+         cd ./pve-kernel/
+         make V=s
 
       # 准备文件
       - name: Organize File
@@ -83,9 +82,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          git config --global user.email "yfdoor@github.com"
-          git config --global user.name "yfdoor"
+          git config user.name "yfdoor"
+          git config user.email "yfdoor@github.com"
           git add PVE_Kernel_yfdoor.zip
           git commit -m "Update pve-kernel package"
           git remote set-url origin https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git
-          git push https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:master
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:master
