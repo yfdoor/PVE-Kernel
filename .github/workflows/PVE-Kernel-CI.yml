@@ -80,9 +80,11 @@ jobs:
 
       # 更新项目
       - name: Push File
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git config --global user.email "yfdoor@github.com"
           git config --global user.name "yfdoor"
           git add PVE_Kernel_yfdoor.zip
           git commit -m "Update pve-kernel package"
-          git push
+          git push https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git
