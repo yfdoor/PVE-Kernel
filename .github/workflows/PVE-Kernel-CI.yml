@@ -86,7 +86,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          git checkout Kernel-Package
+          # git checkout Kernel-Package
           ls pve-kernel*.deb | xargs -d - | awk '{print $3}' | xargs mkdir -p
           ls pve-kernel*.deb | xargs -d - | awk '{print $3}' | xargs mv *.deb 
           ls -l
@@ -98,4 +98,4 @@ jobs:
           git add .
           git commit -m "Update PVE-Kernel Package"
           #git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
-          git push 
+          git push origin Kernel-Package
