@@ -55,9 +55,11 @@ jobs:
       - name: Modify Code
         run: |
           cp -f patches/kernel/* pve-kernel/patches/kernel/
-          touch pve/kernel/pve-kernel-5.4.22-1-pve_5.4.22-1_amd64.deb
-          touch pve/kernel/pve-headers-5.4.22-1-pve_5.4.22-1_amd64.deb
-          touch pve/kernel/pve-linux-5.4.22-1-pve_5.4.22-1_amd64.deb
+          touch pve-kernel/pve-kernel-5.4.22-1-pve_5.4.22-1_amd64.deb
+          touch pve-kernel/pve-headers-5.4.22-1-pve_5.4.22-1_amd64.deb
+          touch pve-kernel/pve-linux-5.4.22-1-pve_5.4.22-1_amd64.deb
+          cd pve-kernel
+          ls -l
 
       # 开始编译
       #- name: Compile File
