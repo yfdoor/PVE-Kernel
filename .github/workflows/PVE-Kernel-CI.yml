@@ -87,6 +87,7 @@ jobs:
           git checkout Kernel-Package
           ls pve-kernel*.deb | xargs -d - | awk '{print $3}' | xargs mkdir -p
           ls pve-kernel*.deb | xargs -d - | awk '{print $3}' | xargs mv *.deb 
+          ls -l
           rm -rf pve-kernel
           #zip -r PVE_Kernel_yfdoor.zip *
           #git init
