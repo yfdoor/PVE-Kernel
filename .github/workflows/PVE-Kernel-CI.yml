@@ -26,26 +26,26 @@ jobs:
         uses: actions/checkout@master
 
       # 空间清理
-      - name: Space Cleanup
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          docker rmi `docker images -q`
-          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d/*
-          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+      #- name: Space Cleanup
+      #  env:
+      #    DEBIAN_FRONTEND: noninteractive
+      #  run: |
+      #    docker rmi `docker images -q`
+      #    sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d/*
+      #    sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
 
-          sudo wget -qO - http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg | sudo apt-key add -
-          sudo echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-install-repo.list
-          sudo apt-get update
-          sudo apt-get install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libpve-common-perl libtool perl-modules python-minimal sed tar zlib1g-dev
+      #    sudo wget -qO - http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg | sudo apt-key add -
+      #    sudo echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-install-repo.list
+      #    sudo apt-get update
+      #    sudo apt-get install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libpve-common-perl libtool perl-modules python-minimal sed tar zlib1g-dev
 
-          sudo echo "deb http://cz.archive.ubuntu.com/ubuntu eoan main" | sudo tee /etc/apt/sources.list.d/eoan_package.list
-          sudo apt-get update
-          sudo apt-get install lz4
+      #    sudo echo "deb http://cz.archive.ubuntu.com/ubuntu eoan main" | sudo tee /etc/apt/sources.list.d/eoan_package.list
+      #    sudo apt-get update
+      #    sudo apt-get install lz4
 
-          sudo apt-get -y autoremove --purge
-          sudo apt-get clean
-          df -h
+      #    sudo apt-get -y autoremove --purge
+      #    sudo apt-get clean
+      #    df -h
 
       # 下载源码
       - name: Clone Code
@@ -54,37 +54,45 @@ jobs:
       # 修改文件
       - name: Modify Code
         run: |
-          cp -f patches/kernel/* pve-kernel/patches/kernel/  
+          cp -f patches/kernel/* pve-kernel/patches/kernel/
+          touch pve/kernel/pve-kernel-5.4.22-1-pve_5.4.22-1_amd64.deb
+          touch pve/kernel/pve-headers-5.4.22-1-pve_5.4.22-1_amd64.deb
+          touch pve/kernel/pve-linux-5.4.22-1-pve_5.4.22-1_amd64.deb
 
       # 开始编译
-      - name: Compile File
-        run: |
-         cd pve-kernel
-         make V=s
+      #- name: Compile File
+      #  run: |
+      #   cd pve-kernel
+      #   make V=s
 
       # 准备文件
       - name: Organize File
-        run: |
-          cd pve-kernel
-          mkdir -p PVE && mv *.deb PVE
+        run: |          
+          ls -l
+          cp pve-kernel/*.deb ./
+          ls -l
 
       # 上传文件
-      - name: Upload File
-        uses: actions/upload-artifact@master
-        with:
-          name: PVE_Kernel_yfdoor
-          path: ./pve-kernel/PVE
+      #- name: Upload File
+      #  uses: actions/upload-artifact@master
+      #  with:
+      #    name: PVE_Kernel_yfdoor
+      #    path: ./pve-kernel/PVE
 
       # 更新项目          
       - name: Upload Branch
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          cd pve-kernel/PVE
-          zip -r PVE_Kernel_yfdoor.zip *
-          git init
+          git checkout Kernel-Package
+          ls pve-kernel*.deb | xargs -d - | awk '{print $3}' | xargs mkdir -p
+          ls pve-kernel*.deb | xargs -d - | awk '{print $3}' | xargs mv *.deb 
+          rm -rf pve-kernel
+          #zip -r PVE_Kernel_yfdoor.zip *
+          #git init
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"
           git add .
           git commit -m "Update PVE-Kernel Package"
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
+          #git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
+          git push 
