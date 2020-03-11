@@ -45,7 +45,7 @@ jobs:
           df -h
       # 下载源码
       - name: Clone Code
-        run: git clone git://git.proxmox.com/git/pve-kernel.git
+        run: git clone git://git.proxmox.com/git/pve-kernel.git -b pve-kernel-5.3
 
       # 修改文件
       - name: Modify Code
