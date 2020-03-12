@@ -24,6 +24,7 @@ jobs:
       # 项目初始
       - name: Code Checkout
         uses: actions/checkout@master
+      
       - run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
 
@@ -49,7 +50,7 @@ jobs:
       - name: Clone Code
         run: |
           git branch -a
-          git checkout Kernel-Package
+          #git checkout Kernel-Package
           git clone git://git.proxmox.com/git/pve-kernel.git -b pve-kernel-5.3
           
       # 修改文件
@@ -96,6 +97,7 @@ jobs:
           rm -rf PVE
           git branch
           git status
+          git checkout Kernel-Package
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"
           git add .
