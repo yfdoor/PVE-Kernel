@@ -75,11 +75,10 @@ jobs:
           git checkout Kernel-Package
           mv -f pve-kernel/*.deb ./
           mkdir -p PVE && cp -rf *.deb PVE
-          ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mkdir -p
-          ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mv -f *.deb
-
-          #cd "$(find . -maxdepth 1 -type d -mmin -1 -name '*.*.*-*')"
-          #zip -r PVE_Kernel_yfdoor.zip *
+          ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
+          Str = "$(cat tmp.txt)"
+          mkdir -p $Str && mv -f *.deb $str
+          zip -r PVE_Kernel_yfdoor_$Str.zip *
 
       # 上传文件
       - name: Upload File
@@ -93,7 +92,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          sudo rm -rf pve-kernel PVE
+          sudo rm -rf pve-kernel PVE tmp.txt
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"
           git add .
