@@ -80,7 +80,7 @@ jobs:
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mkdir -p
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mv *.deb
-          cd "$(find . -type d -name '*.*_*')"
+          cd "$(find . -maxdepth 1 -type d -name '*.*.*-*')"
           zip -r PVE_Kernel_yfdoor.zip *
           ls -l 
 
