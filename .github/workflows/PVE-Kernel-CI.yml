@@ -78,7 +78,7 @@ jobs:
           mv -f pve-kernel/*.deb ./
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
-          echo ::set-env name=FNAME::"$(cat tmp.txt)"
+          echo "##[set-env name=FNAME;]$(cat tmp.txt)"
           echo $FNAME
           mkdir -p $FNAME && mv -f *.deb $FNAME
           zip -r PVE_Kernel_yfdoor_$FNAME.zip *
