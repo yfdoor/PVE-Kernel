@@ -76,6 +76,7 @@ jobs:
       # 准备文件
       - name: Organize File
         run: |
+          git checkout Kernel-Package
           mv -f pve-kernel/*.deb ./
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mkdir -p
@@ -97,7 +98,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           sudo rm -rf pve-kernel PVE
-          git checkout Kernel-Package
+          #git checkout Kernel-Package
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"
           git add .
