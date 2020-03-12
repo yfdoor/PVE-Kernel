@@ -62,7 +62,7 @@ jobs:
       - name: Modify Code
         run: |
           mkdir pve-kernel
-          cp -f patches/kernel/* pve-kernel/patches/kernel/
+          #cp -f patches/kernel/* pve-kernel/patches/kernel/
           touch pve-kernel/pve-kernel-5.3.18-2-pve_5.3.18-2_amd64.deb
           touch pve-kernel/pve-headers-5.3.18-2-pve_5.3.18-2_amd64.deb
 
