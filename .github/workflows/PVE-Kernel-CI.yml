@@ -82,7 +82,7 @@ jobs:
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mkdir -p
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mv *.deb
           ls -l
-          cd "$(find . -maxdepth 1 -type d -cmine -1 -name '*.*.*-*')"
+          cd "$(find . -maxdepth 1 -type d -mmin -1 -name '*.*.*-*')"
           zip -r PVE_Kernel_yfdoor.zip *
 
       # 上传文件
