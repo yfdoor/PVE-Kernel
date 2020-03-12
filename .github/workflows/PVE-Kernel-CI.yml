@@ -63,8 +63,8 @@ jobs:
         run: |
           mkdir pve-kernel
           #cp -f patches/kernel/* pve-kernel/patches/kernel/
-          touch pve-kernel/pve-kernel-5.3.18-2-pve_5.3.18-2_amd64.deb
-          touch pve-kernel/pve-headers-5.3.18-2-pve_5.3.18-2_amd64.deb
+          touch pve-kernel/pve-kernel-5.3.19-2-pve_5.3.19-2_amd64.deb
+          touch pve-kernel/pve-headers-5.3.19-2-pve_5.3.19-2_amd64.deb
 
 
       # # 开始编译
@@ -83,7 +83,6 @@ jobs:
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs mv *.deb
           cd "$(find . -maxdepth 1 -type d -name '*.*.*-*')"
           zip -r PVE_Kernel_yfdoor.zip *
-          ls -l 
 
       # 上传文件
       - name: Upload File
@@ -92,15 +91,15 @@ jobs:
           name: PVE_Kernel_yfdoor
           path: PVE
 
-      # 更新项目          
+      # 更新项目
       - name: Upload Branch
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           sudo rm -rf pve-kernel PVE
-          #git checkout Kernel-Package
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"
           git add .
           git commit -m "Update PVE-Kernel Package"
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package        
+          git push https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
+          # git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
