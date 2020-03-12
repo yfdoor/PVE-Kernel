@@ -78,7 +78,9 @@ jobs:
           mv -f pve-kernel/*.deb ./
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
-          $ env: Str = "$(cat tmp.txt)"
+        env: 
+          Str = "$(cat tmp.txt)"
+        run: |
           echo $Str
           mkdir -p $Str && mv -f *.deb $str
           zip -r PVE_Kernel_yfdoor_$Str.zip *
