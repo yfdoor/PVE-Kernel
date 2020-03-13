@@ -33,6 +33,8 @@ jobs:
       - name: Branch Checkout
         run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+          git branch -a
+          ls -l -a
 
       # 空间清理
       - name: Space Cleanup
@@ -57,6 +59,8 @@ jobs:
       - name: Clone Code
         run: |
           git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
+          ls -a -l
+          git branch -a
 
       # 修改文件
       - name: Modify Code
@@ -73,6 +77,8 @@ jobs:
       - name: Organize File
         run: |
           git checkout Kernel-Package
+          git branch -a
+          ls -l -a
           mv -f pve-kernel/*.deb ./
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
@@ -80,6 +86,7 @@ jobs:
           mkdir -p $FNAME && mv -f *.deb $FNAME
           cd $FNAME
           zip -r PVE_Kernel_yfdoor_$FNAME.zip *
+          ls -l -a
 
       # 上传文件
       - name: Upload File
@@ -94,6 +101,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           sudo rm -rf pve-kernel PVE tmp.txt
+          ls -l -a
+          git branch -a
+          git status
           git config user.name "yfdoor"
           git config user.email "yfdoor@163.com"
           git add .
