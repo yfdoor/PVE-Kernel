@@ -6,7 +6,7 @@ name: PVE-Kernel-CI
 # 触发条件
 on:
   # push:
-  #  branches: 
+  #  branches:
   #   - master
   schedule:
      - cron: 0 0 1 * *
@@ -28,7 +28,7 @@ jobs:
       # 项目初始
       - name: Code Checkout
         uses: actions/checkout@master
-      
+
       # 其他分支
       - name: Branch Checkout
         run: |
@@ -57,10 +57,10 @@ jobs:
       - name: Clone Code
         run: |
           git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
-          
+
       # 修改文件
       - name: Modify Code
-        run: |          
+        run: |
           cp -f patches/kernel/* pve-kernel/patches/kernel/
 
       # 开始编译
