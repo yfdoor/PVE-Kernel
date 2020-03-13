@@ -79,8 +79,8 @@ jobs:
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
-          echo $FNAME
           mkdir -p $FNAME && mv -f *.deb $FNAME
+          cd $FNAME
           zip -r PVE_Kernel_yfdoor_$FNAME.zip *
 
       # 上传文件
