@@ -57,16 +57,15 @@ jobs:
       - name: Clone Code
         run: |
           git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
-          ls -a -l
-          git branch -a
+
+      # 修改文件
+      - name: Modify Code
+        run: |
+          cp -f patches/kernel/* pve-kernel/patches/kernel/
           git checkout Kernel-Package
           git branch -a
           ls -l -a
-
-      # # 修改文件
-      # - name: Modify Code
-      #   run: |
-      #     cp -f patches/kernel/* pve-kernel/patches/kernel/
+          
 
       # # 开始编译
       # - name: Compile File
