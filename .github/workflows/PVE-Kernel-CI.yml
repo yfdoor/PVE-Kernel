@@ -33,10 +33,6 @@ jobs:
       - name: Branch Checkout
         run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-          git branch -a
-          ls -l -a
-          git checkout Kernel-Package
-          ls -l -a
 
       # # 空间清理
       # - name: Space Cleanup
@@ -57,12 +53,14 @@ jobs:
       #     sudo apt-get clean
       #     df -h
 
-      # # 下载源码
-      # - name: Clone Code
-      #   run: |
-      #     git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
-      #     ls -a -l
-      #     git branch -a
+      # 下载源码
+      - name: Clone Code
+        run: |
+          git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
+          ls -a -l
+          git branch -a
+          git branch Kernel-Package
+          ls -l -a
 
       # # 修改文件
       # - name: Modify Code
