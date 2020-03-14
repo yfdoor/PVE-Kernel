@@ -27,17 +27,15 @@ jobs:
     steps:
       # 项目初始
       - name: Code Checkout
-        uses: actions/checkout@v2
-        with
-          ref: Kernel-Package
-
+        uses: actions/checkout@master
 
       # 其他分支
       - name: Branch Checkout
         run: |
-          #git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
           git branch -a
-          #git checkout Kernel-Package
+          ls -l -a
+          git checkout Kernel-Package
           ls -l -a
 
       # # 空间清理
