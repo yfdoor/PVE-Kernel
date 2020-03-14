@@ -58,6 +58,7 @@ jobs:
       - name: Clone Code
         run: |
           git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
+          git branch -a
 
       # 修改文件
       - name: Modify Code
