@@ -33,6 +33,7 @@ jobs:
       - name: Branch Checkout
         run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+          git checkout Kernel-Package
 
       # # 空间清理
       # - name: Space Cleanup
@@ -62,10 +63,10 @@ jobs:
       - name: Modify Code
         run: |
           cp -f patches/kernel/* pve-kernel/patches/kernel/
-          git checkout Kernel-Package
           git branch -a
-          ls -l -a
-          
+          ls -l
+
+
 
       # # 开始编译
       # - name: Compile File
