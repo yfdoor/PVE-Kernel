@@ -63,11 +63,14 @@ jobs:
         run: |
           cp -f patches/kernel/* pve-kernel/patches/kernel/
           git checkout Kernel-Package
+          git branch -a
           ls -l -a
           touch pve-kernel/pve-kernel-5.3.18-2-pve_5.3.18-2_amd64.deb
           touch pve-kernel/pve-linux-5.3.18-2-pve_5.3.18-2_amd64.deb
           git checkout master
+          git branch -a
           ls -l -a
+          ls -l -a pve-kernel/
 
 
 
