@@ -93,12 +93,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          ls -l -a
           sudo rm -rf pve-kernel PVE tmp.txt .git*
-          ls -l -a
           git init
-          git branch -a
-          git status
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"          
           git add .
