@@ -27,7 +27,7 @@ jobs:
     steps:
       # 项目初始
       - name: Code Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with
           ref: Kernel-Package
 
