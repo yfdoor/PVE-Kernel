@@ -32,8 +32,7 @@ jobs:
       # 其他分支
       - name: Branch Checkout
         run: |
-          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-          git checkout Kernel-Package
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*   
 
       # # 空间清理
       # - name: Space Cleanup
@@ -58,14 +57,17 @@ jobs:
       - name: Clone Code
         run: |
           git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
-          git branch -a
 
       # 修改文件
       - name: Modify Code
         run: |
           cp -f patches/kernel/* pve-kernel/patches/kernel/
-          git branch -a
-          ls -l
+          git checkout Kernel-Package
+          ls -l -a
+          touch pve-kernel/pve-kernel-5.3.18-2-pve_5.3.18-2_amd64.deb
+          touch pve-kernel/pve-linux-5.3.18-2-pve_5.3.18-2_amd64.deb
+          git checkout master
+          ls -l -a
 
 
 
