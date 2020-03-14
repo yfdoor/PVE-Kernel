@@ -74,6 +74,7 @@ jobs:
       # 准备文件
       - name: Organize File
         run: |
+          git checkout Kernel-Package
           mv -f pve-kernel/*.deb ./
           mkdir -p PVE && cp -rf *.deb PVE
           ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
@@ -97,9 +98,7 @@ jobs:
           sudo rm -rf pve-kernel PVE tmp.txt
           ls -l
           git branch -a
-          git checkout Kernel-Package
-          ls -l
-          git branch -a
+          
           git status
           git config user.name "yfdoor"
           git config user.email "yfdoor@163.com"
