@@ -103,8 +103,9 @@ jobs:
           git status
           git config user.name "yfdoor"
           git config user.email "yfdoor@163.com"
-
-          git commit -am "U"
+          
+          git add -A
+          git commit -m "U"
           git push
       #     ls -l -a
       #     git branch -a
