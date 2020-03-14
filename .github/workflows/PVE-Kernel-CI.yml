@@ -93,21 +93,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          sudo rm -rf pve-kernel PVE tmp.txt
-          ls -l
+          ls -l -a
+          sudo rm -rf pve-kernel PVE tmp.txt .git*
+          ls -l -a
+          git init
           git branch -a
           git status
           git config user.name "yfdoor"
-          git config user.email "yfdoor@163.com"          
-          git add -A
+          git config user.email "yfdoor@github.com"          
+          git add .
           git commit -m "Update PVE-Kernel Package"
-          git push
-          # git push https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
-      #     ls -l -a
-      #     git branch -a
-      #     git status
-      #     git config user.name "yfdoor"
-      #     git config user.email "yfdoor@163.com"
-      #     git add .
-      #     git commit -m "Update PVE-Kernel Package"
-      #     git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
