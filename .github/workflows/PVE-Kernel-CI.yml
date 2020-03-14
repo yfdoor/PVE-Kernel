@@ -62,17 +62,8 @@ jobs:
       - name: Modify Code
         run: |
           cp -f patches/kernel/* pve-kernel/patches/kernel/
-          git checkout Kernel-Package
-          git branch -a
-          ls -l -a
           touch pve-kernel/pve-kernel-5.3.18-2-pve_5.3.18-2_amd64.deb
           touch pve-kernel/pve-linux-5.3.18-2-pve_5.3.18-2_amd64.deb
-          git checkout master
-          git branch -a
-          ls -l -a
-          ls -l -a pve-kernel/
-
-
 
       # # 开始编译
       # - name: Compile File
@@ -80,20 +71,22 @@ jobs:
       #     cd pve-kernel
       #     make V=s
 
-      # # 准备文件
-      # - name: Organize File
-      #   run: |
-      #     git checkout Kernel-Package
-      #     git branch -a
-      #     ls -l -a
-      #     mv -f pve-kernel/*.deb ./
-      #     mkdir -p PVE && cp -rf *.deb PVE
-      #     ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
-      #     export FNAME="$(cat tmp.txt)"
-      #     mkdir -p $FNAME && mv -f *.deb $FNAME
-      #     cd $FNAME
-      #     zip -r PVE_Kernel_yfdoor_$FNAME.zip *
-      #     ls -l -a
+      # 准备文件
+      - name: Organize File
+        run: |
+          git branch -a
+          ls -l -a
+          mv -f pve-kernel/*.deb ./
+          mkdir -p PVE && cp -rf *.deb PVE
+          ls -l -a PVE
+          ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
+          export FNAME="$(cat tmp.txt)"
+          mkdir -p $FNAME && mv -f *.deb $FNAME
+          cd $FNAME
+          zip -r PVE_Kernel_yfdoor_$FNAME.zip *
+          ls -l -a
+          cd ..
+          ls -l -a          
 
       # # 上传文件
       # - name: Upload File
