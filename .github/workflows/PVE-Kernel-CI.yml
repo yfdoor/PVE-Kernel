@@ -59,7 +59,8 @@ jobs:
           git clone git://git.proxmox.com/git/pve-kernel.git -b $REPO_BRANCH
           ls -a -l
           git branch -a
-          git branch Kernel-Package
+          git checkout Kernel-Package
+          git branch -a
           ls -l -a
 
       # # 修改文件
