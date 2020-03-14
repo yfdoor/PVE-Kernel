@@ -100,6 +100,9 @@ jobs:
           git checkout Kernel-Package
           ls -l
           git branch -a
+          git status
+          git commit -am "U"
+          git push
       #     ls -l -a
       #     git branch -a
       #     git status
