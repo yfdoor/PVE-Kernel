@@ -29,9 +29,7 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@master
         with
-          ref: |
-            master
-            Kernel-Package
+          ref: Kernel-Package
 
 
       # 其他分支
