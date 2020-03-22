@@ -9,11 +9,11 @@ on:
   #  branches:
   #   - master
   schedule:
-     - cron: 0 0 1 * *
+     - cron: 0 0 * * 3
   # release:
   #   types: [published]
-  watch:
-    types: [started]
+  # watch:
+  #  types: [started]
 
 # 环境变量
 env:
