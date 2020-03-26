@@ -10,6 +10,7 @@
 
 ## 下载：
 - 下载 **Kernel-Package** 分支或 **Artifacts** 下的：**PVE_Kernel_yfdoor.zip** 压缩包然后安装新的核心文件即可。
+- 码云镜像：https://gitee.com/yfdoor/PVE-Kernel-G
 
 ## 警告：
 - 更新核心有风险，请谨慎操作。
