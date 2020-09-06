@@ -50,7 +50,7 @@ jobs:
           sudo apt-get update -y
           sudo apt-get dist-upgrade -y
           
-          # sudo apt-get install build-essential git git-email debhelper pve-doc-generator
+          sudo apt-get install build-essential debhelper
           
           # sudo apt-get install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libproxmox-acme-perl libpve-common-perl libtool perl-modules python-minimal sed tar zlib1g-dev idn
           # sudo echo "deb http://cz.archive.ubuntu.com/ubuntu eoan main" | sudo tee /etc/apt/sources.list.d/eoan_package.list
