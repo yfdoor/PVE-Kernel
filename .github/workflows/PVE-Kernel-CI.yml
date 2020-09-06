@@ -51,6 +51,7 @@ jobs:
           sudo echo "deb http://cz.archive.ubuntu.com/ubuntu eoan main" | sudo tee /etc/apt/sources.list.d/eoan_package.list
           sudo apt-get update
           sudo apt-get install lz4
+          sudo apt-get upgrade -y
           sudo apt-get -y autoremove --purge
           sudo apt-get clean
           df -h
