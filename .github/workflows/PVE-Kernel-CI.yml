@@ -43,7 +43,7 @@ jobs:
           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d/*
           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
           
-          sudo echo "deb http://download.proxmox.com/debian buster pvetest" > /etc/apt/sources.list.d/pve-development.list
+          sudo echo "deb http://download.proxmox.com/debian buster pvetest" | sudo tee /etc/apt/sources.list.d/pve-development.list
           sudo echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" | sudo tee /etc/apt/sources.list.d/pve-install-repo.list
           sudo wget -qO - http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg | sudo apt-key add -
                     
