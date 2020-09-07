@@ -50,7 +50,32 @@ jobs:
           sudo apt-get update -y
           sudo apt-get dist-upgrade -y
           
-          sudo apt-get install libemail-valid-perl libpve-common-perl libproxmox-acme-perl
+          sudo apt-get install autotools-dev autogen dh-autoreconf dkms doxygen check pkg-config \
+          groff quilt dpatch automake autoconf libtool lintian libdevel-cycle-perl \
+          libjson-perl libcommon-sense-perl liblinux-inotify2-perl libio-stringy-perl \
+          libstring-shellquote-perl dh-systemd rpm2cpio libsqlite3-dev sqlite3 \
+          libglib2.0-dev librrd-dev librrds-perl rrdcached libdigest-hmac-perl \
+          libxml-parser-perl gdb libcrypt-openssl-random-perl \
+          libcrypt-openssl-rsa-perl libnet-ldap-perl libauthen-pam-perl \
+          libjson-xs-perl libterm-readline-gnu-perl oathtool libmime-base32-perl \
+          liboath0 libpci-dev texi2html libsdl1.2-dev libgnutls28-dev \
+          libspice-protocol-dev xfslibs-dev libnuma-dev libaio-dev \
+          pve-libspice-server-dev libusbredirparser-dev glusterfs-common \
+          libusb-1.0-0-dev librbd-dev libpopt-dev iproute bridge-utils numactl \
+          glusterfs-common ceph-common python-ceph libgoogle-perftools4 \
+          libfile-chdir-perl lvm2 glusterfs-client liblockfile-simple-perl \
+          libsystemd-dev libreadline-gplv2-dev libio-multiplex-perl \
+          libnetfilter-log-dev libipset3 ipset socat libsasl2-dev libogg-dev \
+          python-pyparsing libfilesys-df-perl libcrypt-ssleay-perl \
+          libfile-readbackwards-perl libanyevent-perl libanyevent-http-perl \
+          unzip liblocale-po-perl libfile-sync-perl cstream \
+          lzop dtach hdparm gdisk parted ttf-dejavu-core \
+          liblzma-dev dosfstools mtools libxen-dev libfuse-dev libcpg-dev libquorum-dev \
+          libcmap-dev libuuid-perl libqb-dev libapparmor-dev docbook2x libcap-dev \
+          dh-apparmor graphviz libseccomp-dev libglib-perl libgtk3-perl libnss3-dev \
+          libdlm-dev libudev-dev asciidoc-dblatex source-highlight libiscsi-dev \
+          libiscsi7 librsvg2-bin libarchive-dev libgpgme-dev libcurl4-gnutls-dev \
+          libtest-mockmodule-perl libjemalloc-dev libjpeg-dev
           
           # sudo apt-get install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libproxmox-acme-perl libpve-common-perl libtool perl-modules python-minimal sed tar zlib1g-dev idn
           # sudo echo "deb http://cz.archive.ubuntu.com/ubuntu eoan main" | sudo tee /etc/apt/sources.list.d/eoan_package.list
