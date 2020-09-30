@@ -12,8 +12,8 @@ on:
      - cron: 0 0 * * 3
   # release:
   #   types: [published]
-  # watch:
-  #  types: [started]
+  watch:
+    types: [started]
 
 # 环境变量
 env:
@@ -95,35 +95,30 @@ jobs:
       - name: Organize File
         run: |
           git checkout Kernel-Package
-          ls -l
-          mv -f pve-kernel/*.deb ./
-          ls -l
-          mkdir -p PVE && cp -rf *.deb PVE
-          ls -l
+          mkdir -p PVE
+          mv -f pve-kernel/*.deb PVE
           ls -l ./PVE
-          ls pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
+          ls ./PVE/pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
-          mkdir -p $FNAME
+          mv PVE $FNAME
           ls -l
-          mv -f *.deb $FNAME
-          ls -l
-          cd $FNAME          
-          zip -r PVE_Kernel_yfdoor_$FNAME.zip * 
-          ls -l      
+          ls -l $FNAME
+          cd $FNAME
+          zip -r PVE_Kernel_yfdoor_$FNAME.zip *    
 
       # 上传文件
       - name: Upload File
         uses: actions/upload-artifact@main
         with:
-          name: PVE_Kernel_yfdoor
-          path: PVE
+          name: PVE_Kernel_$FNAME_yfdoor
+          path: $FNAME
 
       # 更新项目
       - name: Upload Branch
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
-          sudo rm -rf pve-kernel PVE tmp.txt .git*
+          sudo rm -rf pve-kernel tmp.txt .git*
           git init
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com"          
