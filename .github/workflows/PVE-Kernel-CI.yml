@@ -100,7 +100,7 @@ jobs:
           ls -l ./PVE
           ls ./PVE/pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
-          mv PVE $FNAME
+          mv -f PVE/ $FNAME/
           ls -l
           ls -l $FNAME
           cd $FNAME
@@ -111,7 +111,7 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: PVE_Kernel_$FNAME_yfdoor
-          path: $FNAME
+          path: PVE
 
       # 更新项目
       - name: Upload Branch
