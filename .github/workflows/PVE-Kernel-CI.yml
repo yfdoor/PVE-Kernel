@@ -100,7 +100,9 @@ jobs:
           ls -l ./PVE
           ls ./PVE/pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
-          mv -f PVE/ $FNAME/
+          mkdir $FNAME
+          ls -l
+          mv -f PVE $FNAME
           ls -l
           ls -l $FNAME
           cd $FNAME
