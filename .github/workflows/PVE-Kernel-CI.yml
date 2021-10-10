@@ -41,8 +41,8 @@ jobs:
         run: | 
           sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
 
-          # sudo wget http://download.proxmox.com/debian/proxmox-release-bullseye.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
-          # sudo chmod +r /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+          sudo wget http://download.proxmox.com/debian/proxmox-release-bullseye.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+          sudo chmod +r /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 
           sudo wget http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
           sudo chmod +r /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
@@ -60,7 +60,8 @@ jobs:
 
           sudo -E apt-get update
           sudo -E apt-get install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libtool perl-modules python2-minimal sed tar zlib1g-dev liblz4-tool idn
-          sudo -E apt-get install -t libpve-common-perl dwarves
+          sudo -E apt-get install libpve-common-perl
+          sudo -E apt-get install -t buster-backports dwarves
           sudo -E apt-get autoremove --purge
           sudo -E apt-get clean
           df -h
