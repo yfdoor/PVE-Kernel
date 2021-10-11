@@ -47,8 +47,11 @@ jobs:
           sudo -E echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" >>/etc/apt/sources.list
           sudo wget -qO - http://download.proxmox.com/debian/proxmox-release-bullseye.gpg | sudo apt-key add -
           sudo -E echo "deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription" >>/etc/apt/sources.list
-          sudo wget -O Release.gpg http://ftp.debian.org/debian/dists/bullseye-backports/Release.gpg
-          sudo apt-key add Release.gpg
+          #sudo wget -O Release.gpg http://ftp.debian.org/debian/dists/bullseye-backports/Release.gpg
+          #sudo apt-key add Release.gpg
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138
+
           sudo -E echo "deb http://deb.debian.org/debian bullseye-backports main" >>/etc/apt/sources.list
           
           sudo -E apt-get update
