@@ -23,7 +23,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
@@ -91,7 +91,7 @@ jobs:
           cd pve-kernel
           sed -i 's/${LINUX_TOOLS_DBG_DEB}//' Makefile 
 
-     # 清理
+      # 清理
       - name: Freeing up disk space
         run: |
           dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
@@ -135,48 +135,48 @@ jobs:
           echo "========================================"
           echo "::set-output name=status::success"
 
-       # 检查版本
-       - name: Get Version
-         id: getversion
-         run: |
-           cd pve-kernel
-           echo "::set-output name=version::$(ls abi-prev* | sed  's/abi-prev/pve-kernel/g' | sed 's/-pve//g')"
+      # 检查版本
+      - name: Get Version
+        id: getversion
+        run: |
+          cd pve-kernel
+          echo "::set-output name=version::$(ls abi-prev* | sed  's/abi-prev/pve-kernel/g' | sed 's/-pve//g')"
       
-       # 准备文件
-       - name: Organize File
-         if: steps.compile.outputs.status == 'success'
-         run: |          
-           mkdir -p PVE      
-           mv -f pve-kernel/*.deb PVE/
-           mv -f pve-kernel/*.ddeb PVE/
-           ls -l PVE/
+      # 准备文件
+      - name: Organize File
+        if: steps.compile.outputs.status == 'success'
+        run: |          
+          mkdir -p PVE      
+          mv -f pve-kernel/*.deb PVE/
+          mv -f pve-kernel/*.ddeb PVE/
+          ls -l PVE/
 
-           ls ./PVE/pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
-           export FNAME="$(cat tmp.txt)"
-           echo $FNAME 
-           # cd $FNAME
-           # zip -r PVE_Kernel_yfdoor_$FNAME.zip *  
+          ls ./PVE/pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
+          export FNAME="$(cat tmp.txt)"
+          echo $FNAME 
+          # cd $FNAME
+          # zip -r PVE_Kernel_yfdoor_$FNAME.zip *  
 
-       # 上传文件
-       - name: Upload File        
-         uses: actions/upload-artifact@main
-         if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN == 'true'
-         with:
-           name: ${{ format('{0}-YFDOOR', steps.getverion.outputs.version)}} 
-           path: PVE
+      # 上传文件
+      - name: Upload File        
+        uses: actions/upload-artifact@main
+        if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN == 'true'
+        with:
+          name: ${{ format('{0}-YFDOOR', steps.getverion.outputs.version)}} 
+          path: PVE
 
-       # 更新分支
-       - name: Upload Branch
-         if: steps.compile.outputs.status == 'success' && env.UPLOAD_BRANCH == 'true'
-         env:
-           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-         run: |
-           git checkout Kernel-Package
-           mv -f PVE ${{ steps.getverion.outputs.version }}
-           sudo rm -rf pve-kernel tmp.txt .git*
-           git init
-           git config user.name "yfdoor"
-           git config user.email "yfdoor@github.com" 
-           git add .
-           git commit -m "Update PVE-Kernel Package"
-           git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
+      # 更新分支
+      - name: Upload Branch
+        if: steps.compile.outputs.status == 'success' && env.UPLOAD_BRANCH == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          git checkout Kernel-Package
+          mv -f PVE ${{ steps.getverion.outputs.version }}
+          sudo rm -rf pve-kernel tmp.txt .git*
+          git init
+          git config user.name "yfdoor"
+          git config user.email "yfdoor@github.com" 
+          git add .
+          git commit -m "Update PVE-Kernel Package"
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
