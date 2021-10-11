@@ -18,11 +18,12 @@ on:
 # 环境变量
 env:
   REPO_BRANCH: master
-  Upload_BRANCH: false
+  Upload_BIN: true
+  Upload_BRANCH: true
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
@@ -35,8 +36,8 @@ jobs:
         run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
 
-      # 空间清理
-      - name: Space Cleanup
+      # 环境初始
+      - name: Initialization
         env:
           DEBIAN_FRONTEND: noninteractive
         run: | 
@@ -47,11 +48,10 @@ jobs:
           sudo -E echo "deb http://download.proxmox.com/debian/pve buster pve-no-subscription" >>/etc/apt/sources.list
           sudo wget -qO - http://download.proxmox.com/debian/proxmox-release-bullseye.gpg | sudo apt-key add -
           sudo -E echo "deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription" >>/etc/apt/sources.list
-          #sudo wget -O Release.gpg http://ftp.debian.org/debian/dists/bullseye-backports/Release.gpg
-          #sudo apt-key add Release.gpg
+          # sudo wget -qO - http://ftp.debian.org/debian/dists/bullseye-backports/Release.gpg | sudo apt-key add -
+          
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9
           sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138
-
           sudo -E echo "deb http://deb.debian.org/debian bullseye-backports main" >>/etc/apt/sources.list
           
           sudo -E apt-get update
@@ -60,7 +60,17 @@ jobs:
           sudo -E apt-get install -t bullseye-backports dwarves
           sudo -E apt-get autoremove --purge
           sudo -E apt-get clean
-          df -h
+          
+          echo "========================================"
+          echo "[Space Usage]:"
+          echo "========================================"
+          df -hT
+          echo "========================================"
+          echo "[File List]:" 
+          echo "========================================"
+          echo "Current Path:" $PWD
+          ls -l -A
+          echo "========================================"
         
       # 下载源码
       - name: Clone Code
@@ -85,54 +95,84 @@ jobs:
       - name: Freeing up disk space
         run: |
           dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -n 100
-          df -h
           # sudo apt-get remove -y '^ghc-8.*'
           sudo apt-get remove -y '^dotnet-.*'
           sudo apt-get remove -y '^llvm-.*'
           sudo apt-get remove -y 'php.*'
           sudo apt-get remove -y azure-cli google-cloud-sdk hhvm google-chrome-stable firefox powershell mono-devel
           sudo apt-get autoremove -y
-          sudo apt-get clean
-          df -h
+          sudo apt-get clean  
           rm -rf /usr/share/dotnet/
-          df -h
+
+          echo "========================================"
+          echo "[Space Usage]:"
+          echo "========================================"
+          df -hT
+          echo "========================================"
+          echo "[File List]:" 
+          echo "========================================"
+          echo "Current Path:" $PWD
+          ls -l -A
+          echo "========================================"
           
       # 开始编译
       - name: Compile File
+        id: compile
         run: |
           cd pve-kernel
-          make V=s
-          ls -l
+          echo -e "$(nproc) thread compile"
+          make -j$(nproc) || make -j1 || make -j1 V=s
+          
+          echo "========================================"
+          echo "[Space Usage]:"
+          echo "========================================"
+          df -hT
+          echo "========================================"
+          echo "[File List]:" 
+          echo "========================================"
+          echo "Current Path:" $PWD
+          ls -l -A
+          echo "========================================"
+          echo "::set-output name=status::success"
 
+     # 检查版本
+       - name: Get Version
+         id: getversion
+         run: |
+           cd pve-kernel
+           echo "::set-output name=version::$(ls abi-prev* | sed  's/abi-prev/pve-kernel/g' | sed 's/-pve//g')"
+      
       # 准备文件
       - name: Organize File
-        run: |
-          git checkout Kernel-Package
+        if: steps.compile.outputs.status == 'success'
+        run: |          
           mkdir -p PVE      
-          mv -f pve-kernel/*.deb PVE
-          ls -l ./PVE
+          mv -f pve-kernel/*.deb PVE/
+          mv -f pve-kernel/*.ddeb PVE/
+          ls -l PVE/
+
           ls ./PVE/pve-kernel*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
-          mkdir $FNAME
-          ls -l
-          mv -f PVE $FNAME
-          ls -l
-          ls -l $FNAME
-          cd $FNAME
-          zip -r PVE_Kernel_yfdoor_$FNAME.zip *    
+          echo $FNAME 
+          # cd $FNAME
+          # zip -r PVE_Kernel_yfdoor_$FNAME.zip *  
 
       # 上传文件
-      - name: Upload File
+      - name: Upload File        
         uses: actions/upload-artifact@main
+        if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN == 'true'
         with:
-          name: PVE_Kernel_$FNAME_yfdoor
+          name: ${{ format('{0}-YFDOOR', steps.getverion.outputs.version)}} 
           path: PVE
 
-      # 更新项目
+      # 更新分支
       - name: Upload Branch
+        if: steps.compile.outputs.status == 'success' && env.UPLOAD_BRANCH == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
+          git checkout Kernel-Package
+          mv -f PVE ${{ steps.getverion.outputs.version }}
           sudo rm -rf pve-kernel tmp.txt .git*
           git init
           git config user.name "yfdoor"
