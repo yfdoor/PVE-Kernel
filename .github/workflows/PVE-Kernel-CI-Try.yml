@@ -173,11 +173,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git checkout Kernel-Package
+          ls -l
           mv -f PVE ${{ steps.getversion.outputs.version }}
-          sudo rm -rf pve-kernel tmp.txt .git* proxmox-acme
+          ls -l
+          sudo rm -rf pve-kernel tmp.txt proxmox-acme
+          ls -l
           git init
           git config user.name "yfdoor"
           git config user.email "yfdoor@github.com" 
           git add .
           git commit -m "Update PVE-Kernel Package"
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package          
