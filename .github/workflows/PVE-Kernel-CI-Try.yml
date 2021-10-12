@@ -154,7 +154,7 @@ jobs:
           ls ./PVE/pve-kernel*-pve*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
           echo $FNAME 
-          echo ${{ steps.getverion.outputs.version }}
+          echo ${{ steps.getversion.outputs.version }}
           # cd $FNAME
           # zip -r PVE_Kernel_yfdoor_$FNAME.zip *  
 
@@ -163,7 +163,7 @@ jobs:
         uses: actions/upload-artifact@main
         if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN == 'true'
         with:
-          name: ${{ format('{0}-YFDOOR', steps.getverion.outputs.version)}} 
+          name: ${{ format('{0}-YFDOOR', steps.getversion.outputs.version)}} 
           path: PVE
 
       # 更新分支
@@ -173,7 +173,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git checkout Kernel-Package
-          mv -f PVE ${{ steps.getverion.outputs.version }}
+          mv -f PVE ${{ steps.getversion.outputs.version }}
           sudo rm -rf pve-kernel tmp.txt .git* proxmox-acme
           git init
           git config user.name "yfdoor"
