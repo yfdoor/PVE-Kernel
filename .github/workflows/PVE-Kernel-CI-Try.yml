@@ -8,8 +8,8 @@ on:
   # push:
   #  branches:
   #   - master
-  schedule:
-     - cron: 0 0 * * 3
+  # schedule:
+  #    - cron: 0 0 * * 3
   # release:
   #   types: [published]
   watch:
@@ -140,7 +140,8 @@ jobs:
         id: getversion
         run: |
           cd pve-kernel
-          echo "::set-output name=version::$(ls abi-prev* | sed  's/abi-prev/pve-kernel/g' | sed 's/-pve//g')"          
+          echo "::set-output name=version::$(ls abi-prev* | sed  's/abi-prev/pve-kernel/g' | sed 's/-pve//g')" 
+          echo ${{ steps.getversion.outputs.version }}
       
       # 准备文件
       - name: Organize File
@@ -149,12 +150,17 @@ jobs:
           mkdir -p PVE      
           mv -f pve-kernel/*.deb PVE/
           mv -f pve-kernel/*.ddeb PVE/
-          ls -l PVE/
-
           ls ./PVE/pve-kernel*-pve*.deb | xargs -d _ | awk '{print $2}'| xargs echo>tmp.txt
           export FNAME="$(cat tmp.txt)"
-          echo $FNAME 
-          echo ${{ steps.getversion.outputs.version }}
+          echo $FNAME
+
+          echo "========================================"
+          echo "[File List]:" 
+          echo "========================================"
+          echo "Current Path:" $PWD
+          ls -l -A PVE/
+          echo "========================================" 
+
           # cd $FNAME
           # zip -r PVE_Kernel_yfdoor_$FNAME.zip *  
 
@@ -173,14 +179,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git checkout Kernel-Package
-          ls -l
-          mv -f PVE ${{ steps.getversion.outputs.version }}
-          ls -l
-          sudo rm -rf pve-kernel tmp.txt proxmox-acme
-          ls -l
+          sudo rm -rf pve-kernel tmp.txt ${{ steps.getversion.outputs.version }}
+          sudo mv -f PVE ${{ steps.getversion.outputs.version }} 
+
+          echo "========================================"
+          echo "[File List]:" 
+          echo "========================================"
+          echo "Current Path:" $PWD
+          ls -l -A
+          echo "========================================"
+         
           git init
           git config user.name "yfdoor"
-          git config user.email "yfdoor@github.com" 
+          git config user.email "yfdoor@github.com"
           git add .
           git commit -m "Update PVE-Kernel Package"
-          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package          
+          git push --force --quiet https://$GITHUB_TOKEN@github.com/yfdoor/PVE-Kernel.git HEAD:Kernel-Package
