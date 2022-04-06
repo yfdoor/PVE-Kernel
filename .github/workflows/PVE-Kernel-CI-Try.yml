@@ -57,7 +57,12 @@ jobs:
           sudo -E apt-get update
           sudo -E apt-get upgrade -y
           sudo -E apt-get install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libtool perl-modules python2-minimal sed tar zlib1g-dev liblz4-tool idn
-          sudo -E apt-get install perlapi libpve-rs-perl libproxmox-rs-perl libpve-common-perl dwarves zstd
+          sudo -E echo "deb http://archive.ubuntu.com/ubuntu impish main restricted universe multiverse" >>/etc/apt/sources.list
+          sudo -E echo "deb http://archive.ubuntu.com/ubuntu impish-backports main restricted universe multiverse" >>/etc/apt/sources.list
+          sudo -E echo "deb http://archive.ubuntu.com/ubuntu impish-proposed main restricted universe multiverse" >>/etc/apt/sources.list
+          sudo -E echo "deb http://archive.ubuntu.com/ubuntu impish-security main restricted universe multiverse" >>/etc/apt/sources.list
+          sudo -E apt-get install -t impish perl
+          sudo -E apt-get install libpve-rs-perl libproxmox-rs-perl libpve-common-perl dwarves zstd
           sudo -E apt-get install -t buster-backports dwarves
           sudo -E apt-get autoremove --purge
           sudo -E apt-get clean
